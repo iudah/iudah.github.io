@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <script src="m4.js"></script>
+    <script src="webgl-utils.js"></script>
+  </head>
+  <body>
+    <canvas width="500" height="500" style="border: 1px solid black"></canvas>
+
+    <script id="frag" type="x-shader/x-fragment">
+
+      precision highp float;
+
+      out vec4 outColor;
+
+      void main() {
+
+        outColor = vec4(1, 0, 0.5, 1);
+      }
+    </script>
+
+    <script id="vert" type="x-shader/x-vertex">
+
+      in vec4 a_position;
+
+      void main() {
+
+        gl_Position = a_position;
+
+      }
+    </script>
+
+    <script>
+      function main() {
+        var canvas = document.getElementsByTagName("canvas")[0];
+        var gl = canvas.getContext("webgl2");
+        try {
+          var locs = Array(1);
+          var program = webglUtils.createProgramFromSources(
+            gl,
+            [
+              "#version 300 es\n" + document.getElementById("vert").innerText,
+              "#version 300 es\n" + document.getElementById("frag").innerText,
+            ],
+            ["a_position"],
+            locs,
+            alert
+          );
+          //make positional arrary buffer
+          var position_buffer = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, position_buffer);
+          var position = [0, 0, 0, 1, 1, 1];
+          gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Float32Array(position),
+            gl.STATIC_DRAW
+          );
+
+          //specify bufffer usage
+          var vertxarr = gl.createVertexArray();
+          gl.bindVertexArray(vertxarr);
+          gl.enableVertexAttribArray(locs[0]); //locs[0]=== positionattrloc
+          gl.vertexAttribPointer(locs[0], 2, gl.FLOAT, false, 0, 0);
+
+          //fresh slate
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.clearColor(0, 0, 0, 0);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+
+          //render
+          gl.useProgram(program);
+          gl.bindVertexArray(vertxarr);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+        } catch (e) {
+          alert(e);
+        }
+      }
+      main();
+    </script>
+  </body>
+</html>
