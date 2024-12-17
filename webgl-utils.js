@@ -158,6 +158,16 @@
     // Check the link status
     const linked = gl.getProgramParameter(program, gl.LINK_STATUS);
     if (!linked) {
+        function glEnumToString(value) {
+  const keys = [];
+  for (const key in WebGL2RenderingContext) {
+    if (WebGL2RenderingContext[key] === value) {
+      keys.push(key);
+    }
+  }
+  return keys.length ? keys.join(' | ') : `0x${value.toString(16)}`;
+}
+        
         // something went wrong with the link
         const lastError = gl.getProgramInfoLog(program);
         errFn(`Error in program linking: ${lastError}\n${

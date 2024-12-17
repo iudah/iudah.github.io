@@ -1,80 +1,162 @@
 <html>
   <head>
+    <script src="m3.js"></script>
     <script src="m4.js"></script>
     <script src="webgl-utils.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
   </head>
   <body>
-    <canvas width="500" height="500" style="border: 1px solid black"></canvas>
+    <canvas
+      width="500"
+      height="500"
+      style="border: 1px solid black; width: 100%; height: 100%"
+    ></canvas>
 
     <script id="frag" type="x-shader/x-fragment">
-
-      precision highp float;
-
-      out vec4 outColor;
-
-      void main() {
-
-        outColor = vec4(1, 0, 0.5, 1);
-      }
+            precision highp float;
+            uniform sampler2D tex_img;
+            in vec2 v_tex_ord;
+            out vec4 outColor;
+            void main() {
+              outColor = texture(tex_img, v_tex_ord)*vec4(1,0,0.3,0.3);//vec4(1, 0, 0.5, 1
+      if(outColor.a<0.1)discard;
+            }
     </script>
 
     <script id="vert" type="x-shader/x-vertex">
-
-      in vec4 a_position;
-
+      in vec2 a_tex_ord;
+      in vec2 a_position;
+      uniform mat3 u_res;
+      out vec2 v_tex_ord;
       void main() {
-
-        gl_Position = a_position;
-
+          v_tex_ord=a_tex_ord;
+          gl_Position = vec4((u_res*vec3(a_position,1)).xy,0,1);
       }
     </script>
 
     <script>
-      function main() {
+var draw=function(){}
+var resize_canvas=function(){}
+      window.onresize = function () {
+          resize_canvas();
+          draw()};
+
+      function main(img) {
         var canvas = document.getElementsByTagName("canvas")[0];
+        
         var gl = canvas.getContext("webgl2");
+        if (gl === null) {
+          alert("webgl2 is not supported on this device");
+          return;
+        }
         try {
-          var locs = Array(1);
+          var locs = [];
           var program = webglUtils.createProgramFromSources(
             gl,
             [
               "#version 300 es\n" + document.getElementById("vert").innerText,
               "#version 300 es\n" + document.getElementById("frag").innerText,
             ],
-            ["a_position"],
-            locs,
+            null, // ["a_position", "a_tex_ord"],
+            null, //   locs,
             alert
           );
+          locs = [
+            gl.getAttribLocation(program, "a_position"),
+            gl.getAttribLocation(program, "a_tex_ord"),
+          ];
+          var tex_img_loc = gl.getUniformLocation(program, "tex_img");
+          var u_res_loc = gl.getUniformLocation(program, "u_res");
           //make positional arrary buffer
           var position_buffer = gl.createBuffer();
           gl.bindBuffer(gl.ARRAY_BUFFER, position_buffer);
-          var position = [0, 0, 0, 1, 1, 1];
+          var position = [0, 0, 0, 500, 500, 500, 0, 0, 500, 500, 500, 0];
           gl.bufferData(
             gl.ARRAY_BUFFER,
             new Float32Array(position),
             gl.STATIC_DRAW
           );
 
+          //make texture_ord arrary buffer
+          var texture_ord_buff = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, texture_ord_buff);
+          var tex_ord = [0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0];
+          gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Float32Array(tex_ord),
+            gl.STATIC_DRAW
+          );
+
           //specify bufffer usage
           var vertxarr = gl.createVertexArray();
           gl.bindVertexArray(vertxarr);
+          gl.bindBuffer(gl.ARRAY_BUFFER, position_buffer);
           gl.enableVertexAttribArray(locs[0]); //locs[0]=== positionattrloc
           gl.vertexAttribPointer(locs[0], 2, gl.FLOAT, false, 0, 0);
+          gl.bindBuffer(gl.ARRAY_BUFFER, texture_ord_buff);
+          gl.enableVertexAttribArray(locs[1]); //locs[1]=== texattrloc
+          gl.vertexAttribPointer(locs[1], 2, gl.FLOAT, false, 0, 0);
 
+          //maake texture
+          var texture = gl.createTexture();
+          gl.activeTexture(gl.TEXTURE0 + 0);
+          gl.bindTexture(gl.TEXTURE_2D, texture);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+          gl.texImage2D(
+            gl.TEXTURE_2D,
+            0,
+            gl.RGBA,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            img
+          );
+
+
+       draw=function() {
+        resize_canvas=function(){canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;}
+        resize_canvas();
           //fresh slate
           gl.viewport(0, 0, canvas.width, canvas.height);
-          gl.clearColor(0, 0, 0, 0);
-          gl.clear(gl.COLOR_BUFFER_BIT);
+          gl.clearColor(0, 0, 0, 1);
+          gl.enable(gl.DEPTH_TEST);
+          gl.enable(gl.BLEND);
+          gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
           //render
           gl.useProgram(program);
           gl.bindVertexArray(vertxarr);
-          gl.drawArrays(gl.TRIANGLES, 0, 3);
+          gl.uniform1i(tex_img_loc, 0);
+
+        gl.uniformMatrix3fv(
+          u_res_loc,
+          false,
+          new Float32Array(m3.projection(canvas.width, canvas.height))
+        );
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
+
+draw();
+
         } catch (e) {
-          alert(e);
+          alert(e.message);
         }
       }
-      main();
+      var image = new Image();
+      image.src = "white-circle-png.png";
+      image.onload = function () {
+        main(image);
+      };
     </script>
   </body>
 </html>
