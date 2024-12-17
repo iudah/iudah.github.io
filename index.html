@@ -41,15 +41,16 @@
     </script>
 
     <script>
-var draw=function(){}
-var resize_canvas=function(){}
+      var draw = function () {};
+      var resize_canvas = function () {};
       window.onresize = function () {
-          resize_canvas();
-          draw()};
+        resize_canvas();
+        draw();
+      };
 
       function main(img) {
         var canvas = document.getElementsByTagName("canvas")[0];
-        
+
         var gl = canvas.getContext("webgl2");
         if (gl === null) {
           alert("webgl2 is not supported on this device");
@@ -120,34 +121,34 @@ var resize_canvas=function(){}
             img
           );
 
+          draw = function () {
+            resize_canvas = function () {
+              canvas.width = document.body.clientWidth;
+              canvas.height = document.body.clientHeight;
+            };
+            resize_canvas();
+            //fresh slate
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.clearColor(0, 0, 0, 1);
+            gl.enable(gl.DEPTH_TEST);
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-       draw=function() {
-        resize_canvas=function(){canvas.width = document.body.clientWidth;
-        canvas.height = document.body.clientHeight;}
-        resize_canvas();
-          //fresh slate
-          gl.viewport(0, 0, canvas.width, canvas.height);
-          gl.clearColor(0, 0, 0, 1);
-          gl.enable(gl.DEPTH_TEST);
-          gl.enable(gl.BLEND);
-          gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            //render
+            gl.useProgram(program);
+            gl.bindVertexArray(vertxarr);
+            gl.uniform1i(tex_img_loc, 0);
 
-          //render
-          gl.useProgram(program);
-          gl.bindVertexArray(vertxarr);
-          gl.uniform1i(tex_img_loc, 0);
+            gl.uniformMatrix3fv(
+              u_res_loc,
+              false,
+              new Float32Array(m3.projection(canvas.width, canvas.height))
+            );
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+          };
 
-        gl.uniformMatrix3fv(
-          u_res_loc,
-          false,
-          new Float32Array(m3.projection(canvas.width, canvas.height))
-        );
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-      }
-
-draw();
-
+          draw();
         } catch (e) {
           alert(e.message);
         }
