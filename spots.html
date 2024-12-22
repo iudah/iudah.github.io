@@ -134,8 +134,8 @@
                     const no_instances = 5000;
                     for (let i = 0; i < no_instances; i++) {
                         vertex_colors.push(
-                            Math.random(),
-                            Math.random(),
+                            Math.random()* Math.random(),
+                            Math.random()* Math.random(),
                             Math.random(),
                             Math.random()
                         );
@@ -299,7 +299,11 @@
                             2000
                         );
                     };
-                    draw = function () {
+                    var then;
+                    draw = function (time) {
+                        if(then===undefined)then=time;
+                        var elapse=(time-then)/100;
+                        then=time;
                         resize_canvas();
                         //fresh slate
                         gl.viewport(0, 0, canvas.width, canvas.height);
@@ -325,7 +329,16 @@
                         const s = Math.random();
                         //update transforms
                         instances_transform.forEach((mat, idx) => {
-                            m4.scale(m4.translation( positions[idx][0],positions[idx][1], -2000-(-2000+3)*idx/no_instances, mat), .2,.2,1, mat)
+                            positions[idx][0]+=elapse*bound_random(.5,-.5)/2;
+                            positions[idx][1]+=elapse*bound_random(.5,-.5)/2;
+                            positions[idx][2]+=elapse*bound_random(.5,-.5)/2;
+                            
+                            //console.log(elapse);
+                            
+                            m4.scale(m4.translation( positions[idx][0],
+                            positions[idx][1],
+                            -2000-(-2000+3)*idx/no_instances,
+                            mat), .12,.12,1, mat)
                             ;
                         });
                         gl.bindBuffer(
@@ -345,9 +358,12 @@
                             6,
                             no_instances
                         );
+                    
+                        
+                    requestAnimationFrame(draw);
                     };
 
-                    draw();
+                    requestAnimationFrame(draw);
                 } catch (e) {
                     console.log(e.message);
                 }
