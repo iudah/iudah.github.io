@@ -99,7 +99,6 @@ let srcs_timestamps = {};
 main();
 
 function main() {
-  reload_page();
 
 
   const calendar = new Calendar(".calendar_container", 30);
@@ -134,6 +133,7 @@ function check_recency(src_path) {
 
 
 function reload_page() {
+    return;
   //check if any style sheet is newer
   for (const style_src of document.styleSheets) {
     check_recency(style_src.href);
