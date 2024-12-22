@@ -53,10 +53,7 @@
 
             var draw = function () {};
             var resize_canvas = function () {};
-            window.onresize = function () {
-                resize_canvas();
-                draw();
-            };
+            
 
             function main(vertex_source, fragment_source, image) {
                 console.log("started", vertex_source, fragment_source);
