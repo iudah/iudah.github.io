@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Event Host Portfolio" />
+    <title>Event Planner</title>
+    <link rel="stylesheet" href="./style/index.css" />
+    <style></style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="#home" class="logo varela">John C. D.</a>
+        <div class="nav_links nunito">
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+    <main class="container">
+      <section class="home nunito" id="home">
+        <div>
+          <h1 class="varela">John C. Doe</h1>
+          <p>Event Host</p>
+        </div>
+      </section>
+      <section class="section nunito" id="about">
+        <h2 class="varela">About</h2>
+        <div class="grid">
+          <img src="image.jpg" />
+          <p>
+            With over five years of experience in events hosting and
+            coordination, John C. Doe transforms ordinary gatherings into
+            memorable experiences. Every moment is deligently crafted through
+            passionate dedication and attention to details.
+          </p>
+        </div>
+      </section>
+      <section id="contact" class="section nunito">
+        <h2 class="varela">Contact</h2>
+        <div class="card contact-us">
+          <div class="grid">
+            <div>
+              <p>Let's create something memorable together.</p>
+              <form>
+                <input
+                  class="nunito"
+                  type="text"
+                  name="Name"
+                  id="name_box"
+                  placeholder="Your Name"
+                />
+                <input
+                  class="nunito"
+                  type="email"
+                  name="email"
+                  id="email_box"
+                  placeholder="Your Email"
+                />
+                <input
+                  class="nunito"
+                  type="tel"
+                  name="phone"
+                  id="phone_box"
+                  placeholder="Your Phone Number"
+                />
+                <textarea
+                  class="nunito"
+                  name="note"
+                  placeholder="Tell us about your event"
+                ></textarea>
+                <button class="nunito">Leave a note.</button>
+              </form>
+            </div>
+            <div class="bar"></div>
+            <div>
+              <p>Our Socials</p>
+              <p>ig:</p>
+              <p>fb:</p>
+              <p>x:</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer class="bar">iudah <span id="yr"></span></footer>
+    </main>
+  </body>
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+  </script>
+</html>

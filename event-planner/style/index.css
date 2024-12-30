@@ -1,0 +1,162 @@
+@import url(../../style/base.css);
+
+.varela {
+  font-family: "Varela Round", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.nunito {
+  font-family: "Nunito", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  width: 100%;
+  max-width: 100%;
+}
+
+.home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: auto;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.08);
+}
+.home h1 {
+  margin-bottom: 1rem;
+  font-size: 4rem;
+}
+
+.home p {
+  font-size: 1.5rem;
+}
+
+.section {
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  padding: 4rem 3rem;
+}
+
+.section h2 {
+  text-align: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: calc(var(--font-size-base) * 1.5);
+}
+#about {
+  text-align: center;
+}
+
+#about .grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+#about img {
+  border: 1px solid var(--md-sys-color-outline);
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+#contact {
+  margin-bottom: var(--spacing);
+}
+
+.contact-us {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.contact-us .grid {
+  display: grid;
+  grid-template-columns: 40fr 1fr 40fr;
+  gap: 1rem;
+}
+
+.contact-us .grid p {
+  margin: 0;
+  padding: 0;
+}
+
+.contact-us .grid div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+.contact-us .grid .bar {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.contact-us .grid form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-content: space-between;
+}
+
+.contact-us .grid form * {
+  font-size: var(--font-size-base);
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: calc(var(--card-radius) / 5);
+  padding: 1rem;
+  width: 100%;
+}
+
+.contact-us .grid form button {
+  border: 0;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transition: all 0.3s ease;
+}
+.contact-us .grid form button:hover {
+  border: 0;
+  background-color: var(--md-sys-color-tertiary);
+  color: var(--md-sys-color-on-tertiary);
+}
+.contact-us .grid form textarea {
+  height: 150px;
+}
+
+footer {
+  padding: calc(var(--spacing) / 2) 0;
+  text-align: center;
+  position: sticky;
+  bottom: 0;
+  font-size: var(--font-size-small);
+}
+
+@media (max-width: 768px) {
+  .contact-us .grid,
+  #about .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .contact-us .grid .bar {
+    height: 4px;
+  }
+}

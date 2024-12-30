@@ -1,0 +1,110 @@
+@import url(./dark.css);
+@import url(./light.css);
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Varela+Round&display=swap");
+
+:root {
+  --card-radius: 20px;
+  --spacing: 1.5rem;
+  --font-size-base: 16px;
+  --font-size-heading: 2rem;
+  --font-size-subheading: 1.5rem;
+  --font-size-link: 1.3rem;
+  --font-size-paragraph: 1rem;
+  --font-size-small: 0.9rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --spacing: 2rem;
+  }
+}
+
+html,
+body {
+  font-size: var(--font-size-base);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html.light {
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+}
+
+html.dark {
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+}
+
+header {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  padding: calc(var(--spacing) / 2) 0;
+  position: sticky;
+  top: 0;
+  font-size: var(--font-size-base);
+}
+nav {
+  margin: 0 var(--spacing);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a {
+  color: var(--md-sys-color-background);
+}
+
+nav .nav_links {
+  width: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing);
+}
+
+h1 {
+  font-size: var(--font-size-heading);
+}
+h2 {
+  font-size: var(--font-size-subheading);
+}
+
+a {
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
+  font-size: calc(var(--font-size-link));
+  font-family: Nunito;
+  font-weight: 500;
+}
+
+a:hover {
+  color: var(--md-sys-color-secondary);
+  text-decoration: underline;
+}
+
+p {
+  font-size: var(--font-size-paragraph);
+}
+
+.card {
+  border-radius: var(--card-radius);
+  padding: var(--spacing);
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: 0 2px 4px var(--md-sys-color-shadow);
+}
+
+.bar,
+.comfortaa {
+  font-family: "Comfortaa", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bar {
+  background-color: var(--md-sys-color-tertiary);
+  color: var(--md-sys-color-on-tertiary);
+}

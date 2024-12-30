@@ -1,55 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html class="light">
   <head>
+    <title>Abayomi Jude - Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./index.css" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta property="og:title" content="Abayomi Jude - Portfolio" />
+    <meta
+      property="og:description"
+      content="A showcase of Abayomi Jude's projects"
+    />
+    <meta name="description" content="A showcase of Abayomi Jude's projects" />
+    <link href="style/index.css" rel="stylesheet" />
   </head>
   <body>
-    <header>
-      <nav>
-        <div class="iudah_title">
-          Iudah's Coding Diary
-          <div
-            style="
-              display: inline-block;
-              background-color: rgb(76, 134, 221);
-              height: 7pt;
-              min-width: 7pt;
-              position: relative;
-              left: -4pt;
-              border-radius: 50%;
-              box-shadow: 3px 1px 5px 1px inset white,
-                0px 0px 15px 3px rgba(76, 134, 221, 1);
-            "
-          ></div>
-        </div>
-      </nav>
-    </header>
-
-    <h1>30 Days of Code</h1>
-
-    <main class="main">
-      <!--h2>Day 1: Why C++?</h2>
-        <section class="write_up">Why C++? Article</section-->
-      <article class="write_up">Sample Text</article>
-      <aside class="aside">
-        <div class="calendar_holder">
-          <div class="calendar_pre_nex">
-            <span class="pre">
-              <div class="up"></div>
-            </span>
-            <span>30 days of C++</span>
-            <span class="nex">
-              <div class="down"></div>
-            </span>
+    <main class="container comfortaa">
+      <section class="card">
+        <h1 style="font-size: 3.5rem; font-weight: 700">Abayomi Jude.</h1>
+        <p>github: <a href="github.com/iudah">@iudah</a></p>
+        <p>
+          email: <a href="mailto:olaolujude@gmail.com">olaolujude@gmail.com</a>
+        </p>
+      </section>
+      <section class="card">
+        <h2>Projects</h2>
+        <div class="projects">
+          <div class="project">
+            <iframe
+              title="WebGL demo"
+              loading="lazy"
+              src="web-gl-page/spots.html"
+            ></iframe>
+            <p>
+              <a href="web-gl-page/spots.html" target="_blank" rel="noopener"
+                >A demo website with a WebGL embedded background</a
+              >
+            </p>
           </div>
-          <div class="calendar_container"></div>
+          <div class="project">
+            <iframe
+              title="Event Host"
+              loading="lazy"
+              src="event-planner/index.html"
+            ></iframe>
+            <p>
+              <a href="event-planner/index.html" target="_blank" rel="noopener"
+                >A demo website for an event host.</a
+              >
+            </p>
+          </div>
         </div>
-      </aside>
+      </section>
     </main>
 
-    <footer><span>Designed and coded by iudah.</span></footer>
-    <script > window.location.replace("spots.html");</script>
-    <script src="index.js" type="module"></script>
+    <footer class="bar">
+      <p>iudah <span id="year"></span></p>
+    </footer>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
