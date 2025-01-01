@@ -74,7 +74,7 @@ h2 {
 a {
   color: var(--md-sys-color-primary);
   text-decoration: none;
-  font-size: calc(var(--font-size-link));
+  font-size: var(--font-size-link);
   font-family: Nunito;
   font-weight: 500;
 }
